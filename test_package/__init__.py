@@ -1,0 +1,1 @@
+print('FROM INIT ONE')
