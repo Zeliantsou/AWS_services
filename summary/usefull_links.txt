@@ -1,6 +1,0 @@
-1. Creating API:
-    https://docs.aws.amazon.com/code-samples/latest/catalog/python-apigateway-aws_service-aws_service.py.html
-    https://lifesaver.codes/answer/how-to-add-an-api-endpoint-for-a-lambda-function-572
-    https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started-aws-proxy.html#getting-started-aws-proxy-add-methods
-    https://stackoverflow.com/questions/58859917/creating-aws-lambda-integrated-api-gateway-resource-with-boto3
-    https://docs.aws.amazon.com/apigateway/latest/developerguide/permissions.html#api-gateway-control-access-iam-permissions-model-for-calling-api

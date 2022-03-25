@@ -1,1 +1,0 @@
-print('FROM INIT ONE')
