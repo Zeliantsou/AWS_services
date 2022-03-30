@@ -5,13 +5,26 @@ from urllib import parse
 TABLE_NAME = 'cereal-zelentsov'
 
 
-def batch_write_items(dynamo_db_client, table_name, data_list):
-    dynamo_db_client.batch_write_item(
+def batch_write_items(
+        dynamo_db_client,
+        table_name: str,
+        data_list: list) -> dict:
+    """
+    Writes certain amount of items to the table.
+    """
+    return dynamo_db_client.batch_write_item(
         RequestItems={table_name: data_list}
     )
 
 
-def put_items_into_db(dynamo_db_client, table_name, datalist):
+def put_items_into_db(
+        dynamo_db_client,
+        table_name: str,
+        datalist: list):
+    """
+    Divides all the data into parts and conveys those
+    part to the function for batch create.
+    """
     is_items = True
     while is_items:
         if len(datalist) > 25:
@@ -24,17 +37,12 @@ def put_items_into_db(dynamo_db_client, table_name, datalist):
 
 
 def lambda_handler(event, context):
-    dynamo_db_client = boto3.client(
-        'dynamodb',
-        aws_access_key_id='AKIAQ3POWT3O3A64G2VO',
-        aws_secret_access_key='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'
-    )
+    """
+    Fill a newly created table with data.
+    """
+    dynamo_db_client = boto3.client('dynamodb')
+    s3_client = boto3.client('s3')
 
-    s3_client = boto3.client(
-        's3',
-        aws_access_key_id='AKIAQ3POWT3O3A64G2VO',
-        aws_secret_access_key='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'
-    )
     bucket_name = event['requestPayload']['requestPayload']['Records'][0]['s3']['bucket']['name']
     key = event['requestPayload']['requestPayload']['Records'][0]['s3']['object']['key']
     key = parse.unquote_plus(key, encoding='utf-8')

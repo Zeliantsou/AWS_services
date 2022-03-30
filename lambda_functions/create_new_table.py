@@ -1,5 +1,6 @@
 import json
 import boto3
+from typing import List
 
 
 TABLE_NAME = 'cereal-zelentsov'
@@ -11,7 +12,9 @@ READ_CAPACITY_UNITS = 10
 WRITE_CAPACITY_UNITS = 10
 
 
-def get_key_schema(hash_column_name, range_column_name):
+def get_key_schema(
+        hash_column_name: str,
+        range_column_name: str) -> List[dict]:
     return [
         {
             'AttributeName': hash_column_name,
@@ -24,10 +27,12 @@ def get_key_schema(hash_column_name, range_column_name):
     ]
 
 
-def get_attribute_definitions(hash_column_name,
-                              hash_column_name_type,
-                              range_column_name,
-                              range_column_name_type):
+def get_attribute_definitions(
+        hash_column_name: str,
+        hash_column_name_type: str,
+        range_column_name: str,
+        range_column_name_type: str
+) -> List[dict]:
     return [
         {
             'AttributeName': hash_column_name,
@@ -40,8 +45,9 @@ def get_attribute_definitions(hash_column_name,
     ]
 
 
-def get_provisioned_throughput(read_capacity_units,
-                               write_capacity_units):
+def get_provisioned_throughput(
+        read_capacity_units: int,
+        write_capacity_units: int) -> dict:
     return {
         'ReadCapacityUnits': read_capacity_units,
         'WriteCapacityUnits': write_capacity_units
@@ -49,11 +55,11 @@ def get_provisioned_throughput(read_capacity_units,
 
 
 def lambda_handler(event, context):
-    dynamo_db_client = boto3.client(
-        'dynamodb',
-        aws_access_key_id='AKIAQ3POWT3O3A64G2VO',
-        aws_secret_access_key='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'
-        )
+    """
+    Creates a new DynamoDB table to
+    storage data about cereals.
+    """
+    dynamo_db_client = boto3.client('dynamodb')
     key_schema = get_key_schema(
         hash_column_name=HASH_COLUMN_NAME,
         range_column_name=RANGE_COLUMN_NAME

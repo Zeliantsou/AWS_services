@@ -32,7 +32,12 @@ AWS_DEFAULT_ARN_POLICIES = (
     'arn:aws:iam::aws:policy/AWSLambda_FullAccess',
     )
 AWS_API_STAGE_NAME = 'test_stage'
-
+AWS_LAMBDA_DESTINATIONS = (
+    {'function_name': 'delete_existing_table',
+     'destination_function_name': 'create_new_table'},
+    {'function_name': 'create_new_table',
+     'destination_function_name': 'fill_new_table'},
+)
 
 DIRECTORY_PATH_LAMBDA = 'lambda_functions/'
 DIRECTORY_PATH_ZIP_STORAGE = 'lambda_zips_for_aws /'

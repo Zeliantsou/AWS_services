@@ -1,7 +1,7 @@
 import json
 
 
-def get_doc_provide_access_lambda():
+def get_doc_provide_access_lambda() -> str:
     document = {
         "Version": "2012-10-17",
         "Statement": [
@@ -21,7 +21,7 @@ def get_doc_provide_access_lambda():
     return json.dumps(document)
 
 
-def get_mapping_template():
+def get_mapping_template() -> str:
     map_templ = {
         'key': {
             'name': "$input.params('name')",
@@ -31,7 +31,7 @@ def get_mapping_template():
     return json.dumps(map_templ)
 
 
-def get_mapping_template_update():
+def get_mapping_template_update() -> str:
     map_templ_update = {
         'key': {
             'name': "$input.params('name')",

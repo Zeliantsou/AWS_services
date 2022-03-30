@@ -5,11 +5,10 @@ TABLE_NAME = 'cereal-zelentsov'
 
 
 def lambda_handler(event, context):
-    dynamo_db_client = boto3.client(
-        'dynamodb',
-        aws_access_key_id='AKIAQ3POWT3O3A64G2VO',
-        aws_secret_access_key='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'
-    )
+    """
+    Delete table for cereals if it exists.
+    """
+    dynamo_db_client = boto3.client('dynamodb')
     tables = dynamo_db_client.list_tables()
     if TABLE_NAME in tables['TableNames']:
         dynamo_db_client.delete_table(
@@ -18,5 +17,5 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': json.dumps(f'Table {TABLE_NAME} does not already exist')
+        'body': json.dumps(f'Table {TABLE_NAME} has been deleted')
     }

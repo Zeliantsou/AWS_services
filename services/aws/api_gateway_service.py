@@ -6,13 +6,23 @@ from services.aws.values import (
 )
 
 
-def create_rest_api(api_gateway_client, api_name):
+def create_rest_api(
+        api_gateway_client,
+        api_name: str) -> str:
+    """
+    Creates a REST API on API Gateway.
+    """
     rest_api = api_gateway_client.create_rest_api(
         name=api_name)
     return rest_api['id']
 
 
-def get_rest_api_id(api_gateway_client, api_name):
+def get_rest_api_id(
+        api_gateway_client,
+        api_name: str) -> str:
+    """
+    Gets REST API id.
+    """
     rest_api = None
     paginator = api_gateway_client.get_paginator(
         'get_rest_apis')
@@ -26,34 +36,62 @@ def get_rest_api_id(api_gateway_client, api_name):
     return rest_api['id']
 
 
-def get_resources(api_gateway_client, api_id):
+def get_resources(
+        api_gateway_client,
+        api_id: str) -> dict:
+    """
+    Lists information about a collection of resources.
+    """
     return api_gateway_client.get_resources(
         restApiId=api_id)
 
 
-def get_parent_id(resources):
+def get_parent_id(resources: dict) -> str:
+    """
+    Gets parent id for the first created resource
+    for newly created API.
+    """
     return resources['items'][0]['id']
 
 
-def add_rest_resource(api_gateway_client, api_id,
-                      resource_path, parent_id):
-    resource = api_gateway_client.create_resource(
+def add_rest_resource(
+        api_gateway_client,
+        api_id: str,
+        resource_path: str,
+        parent_id: str
+) -> dict:
+    """
+    Adds a new resource for REST api.
+    """
+    return api_gateway_client.create_resource(
         restApiId=api_id,
         pathPart=resource_path,
         parentId=parent_id
     )
-    return resource
 
 
-def get_resource_id(resource):
+def get_resource_id(resource: dict) -> str:
+    """
+    Gets id of resource.
+    """
     return resource['id']
 
 
-def add_integration_method(api_gateway_client, api_id,
-                           resource_id, rest_method,
-                           lambda_client, lambda_func_name,
-                           service_method, aws_region,
-                           aws_account_id, resource_path):
+def add_integration_method(
+        api_gateway_client,
+        api_id: str,
+        resource_id: str,
+        rest_method: str,
+        lambda_client,
+        lambda_func_name: str,
+        service_method: str,
+        aws_region: str,
+        aws_account_id: str,
+        resource_path: str,
+) -> None:
+    """
+    Adds an integration method to a REST api.
+    """
     api_gateway_client.put_method(
         restApiId=api_id,
         resourceId=resource_id,
@@ -109,9 +147,15 @@ def add_integration_method(api_gateway_client, api_id,
     )
 
 
-def deploy_api_gateway(api_gateway_client, api_id,
-                       stage_name):
-    api_gateway_client.create_deployment(
+def deploy_api_gateway(
+        api_gateway_client,
+        api_id: str,
+        stage_name: str
+) -> dict:
+    """
+    Deploys a REST api.
+    """
+    return api_gateway_client.create_deployment(
         restApiId=api_id,
         stageName=stage_name
     )
